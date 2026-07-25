@@ -86,7 +86,23 @@ class Ball:
         self.rect.x += self.vx
         self.rect.y += self.vy
 
-    def draw(self, screen: pygame.surface) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
         """ Renders the Ball. """
         colour = cfg.BALL_COLOR
         pygame.draw.circle(screen, colour, self.rect.center, self.radius)
+        
+class Bonus:
+    def __init__(self, x, y, type):
+        self.type = type
+        self.data = cfg.BONUS_DATA[type]
+        self.rect = pygame.Rect(x, y, 20, 20)
+        self.speed = 3
+
+    def update(self):
+        self.rect.y += self.speed
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.data["color"], self.rect, border_radius=3)
+        font = pygame.font.SysFont("Arial", 16, bold=True)
+        text = font.render(self.data["icon"], True, (0, 0, 0))
+        screen.blit(text, (self.rect.x + 5, self.rect.y + 2))
